@@ -21,7 +21,7 @@
 <canvas id="canvas"></canvas>
 <script src="./js/init.js"></script>
 <script src="./js/common.js"></script>
-<script src="./js/mosaic.js"></script>
+<script src="js/crossCut.js"></script>
 <script>
 	window.onload = () => {
 		const {img, config, ctx} = initFn();
@@ -33,8 +33,8 @@
 		function drawImageIntoTempCanvas(img, config) {
 			ctx.drawImage(img, 0, 0, config.width, config.height);
 			config.imageInfo = getImageData(ctx, config);
-			//  马赛克效果
-			getMosaicArr(config);
+			//  左右交错效果
+			getStaggerArr(config);
 			draw();
 		}
 
@@ -43,8 +43,9 @@
 			window.requestAnimationFrame(draw);
 			//  清空画布
 			ctx.clearRect(0, 0, config.width, config.height);
-			//  马赛克效果
-			drawMosaic(config, ctx);
+			//  左侧交错
+			drawCrossCut(config, ctx, 0,);
+			drawCrossCut(config, ctx, 1,);
 		}
 	};
 

@@ -17,23 +17,32 @@ function getStaggerArr(config) {
 //  左右交错效果 - 渲染
 function drawCrossCut(config, ctx, init,) {
 	if (config.cutProgress > 0) {
-		config.cutProgress--;
+		config.cutProgress -= .5;
 	}
 	//  一层图片的高度
-	const {heightOfOneLayerOfPictures, part, staggerArr, width, cutProgress} = config;
-	for (let i = 0; i < part; i += 2) {
+	const {
+		heightOfOneLayerOfPictures,
+		staggerArr,
+		part,
+		cutProgressOrigin,
+		width,
+		cutProgress,
+	} = config;
+	//  位移
+	const _x = cutProgress / cutProgressOrigin * width
+ 	for (let i = 0; i < part; i += 2) {
 		const imageInfo = staggerArr[i + init];
 		if (!imageInfo) {
 			return;
 		}
-		let x = 0;
+		let x = _x;
 		//  组装canvas
 		if (init) {
 			//  从右到左
-			x = -cutProgress;
+			x = -_x;
 		} else {
 			//  从左到右
-			x = +cutProgress;
+			x = _x;
 		}
 		ctx.putImageData(imageInfo, x, (i + init) * heightOfOneLayerOfPictures);
 	}
