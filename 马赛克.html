@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            border: 1px solid crimson;
+        }
+	</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script src="./js/init.js"></script>
+<script src="./js/common.js"></script>
+<script src="./js/cut.js"></script>
+<script src="./js/mosaic.js"></script>
+<script>
+	window.onload = () => {
+		const {img, config, ctx} = initFn();
+		img.onload = function () {
+			drawImageIntoTempCanvas(img, config);
+		};
+
+		//  把加载好的img放到canvas里
+		function drawImageIntoTempCanvas(img, config) {
+			ctx.drawImage(img, 0, 0, config.width, config.height);
+			config.imageInfo = getImageData(ctx, config);
+			// console.log('config.imageInfo', config.imageInfo);
+			//  左右交错效果
+			// getStaggerArr(config);
+
+			//  马赛克效果
+			getMosaicArr(config);
+			draw();
+		}
+
+		//  绘制
+		function draw() {
+			window.requestAnimationFrame(draw);
+			//  清空画布
+			ctx.clearRect(0, 0, config.width, config.height);
+			//  左侧交错
+			// drawCrossCut(config, ctx, 0,);
+			// drawCrossCut(config, ctx, 1,);
+			//  马赛克效果
+			drawMosaic(config, ctx);
+		}
+	};
+
+
+</script>
+</body>
+</html>
