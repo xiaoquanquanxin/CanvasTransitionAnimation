@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        canvas {
+            border: 1px solid crimson;
+        }
+	</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<script src="./js/init.js"></script>
+<script src="./js/common.js"></script>
+<script src="js/faceToFace.js"></script>
+<script>
+	window.onload = () => {
+		const {img, config, ctx} = initFn();
+		img.onload = function () {
+			drawImageIntoTempCanvas(img, config);
+		};
+
+		//  把加载好的img放到canvas里
+		function drawImageIntoTempCanvas(img, config) {
+			ctx.drawImage(img, 0, 0, config.width, config.height);
+			config.imageInfo = getImageData(ctx, config);
+			//  是上下
+			getStaggerArr(config, true);
+			//	是左右
+			// getStaggerArr(config, false);
+			draw();
+		}
+
+		//  绘制
+		function draw() {
+			window.requestAnimationFrame(draw);
+			//  清空画布
+			ctx.clearRect(0, 0, config.width, config.height);
+			//  是上下
+			drawCrossCut(config, ctx, true);
+			//  是左右
+			// drawCrossCut(config, ctx, false);
+		}
+	};
+
+
+</script>
+</body>
+</html>
